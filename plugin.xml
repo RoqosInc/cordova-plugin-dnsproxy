@@ -61,7 +61,5 @@
         <framework src="de.measite.minidns:minidns-core:0.2.4" />
         <framework src="com.google.code.gson:gson:2.8.2" />
 
-        <framework src="com.android.support:appcompat-v7:27.1.1" />
-
     </platform>
 </plugin>
