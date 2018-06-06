@@ -1,4 +1,4 @@
-# cordova-plugin-keyboard 
+# cordova-plugin-dnsproxy
 
 # Installation
 
