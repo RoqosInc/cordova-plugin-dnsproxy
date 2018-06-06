@@ -35,8 +35,6 @@ import de.measite.minidns.record.AAAA;
 import de.measite.minidns.source.NetworkDataSource;
 import de.measite.minidns.record.Data;
 
-import java.util.Random;
-
 public class UdpProvider extends Provider {
     private static final String TAG = "UdpProvider";
 
@@ -330,22 +328,12 @@ public class UdpProvider extends Provider {
         DNSMessage dnsMsg;
         try {
             dnsMsg = new DNSMessage(dnsRawData);
+            Log.i(TAG, "adb logcat | grep MacAddress: " + Roqos.optionsCode.get(0));
             DNSMessage.Builder message = dnsMsg.asBuilder();
-
             // Roqos.optionsCode.size
             for(int i = 0; i < Roqos.optionsCode.size(); i++){
                 message.getEdnsBuilder().addEdnsOption(EDNSOption.parse(Integer.parseInt(Roqos.optionsCode.get(i)), new String(Roqos.ednsMessage.get(i)).getBytes()));
             }
-
-            String dnsDomainName = dnsMsg.getQuestion().name.toString();
-
-            message.setQuestion(new Question(dnsDomainName, Record.TYPE.AAAA))
-                    .setId((new Random()).nextInt())
-                    .setRecursionDesired(true)
-                    .setOpcode(DNSMessage.OPCODE.QUERY)
-                    .setResponseCode(DNSMessage.RESPONSE_CODE.NO_ERROR)
-                    .setQrFlag(false);
-
             // message.getEdnsBuilder().addEdnsOption(EDNSOption.parse(65073, macAddressToByteArray("1f:68:3f:75:41:1e")));
             // message.getEdnsBuilder().addEdnsOption(EDNSOption.parse(65074, new String("5abc68de8f7b634e50a36f05").getBytes()));
             message.getEdnsBuilder().setUdpPayloadSize(512);
