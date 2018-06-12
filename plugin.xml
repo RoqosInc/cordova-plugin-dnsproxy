@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        id="cordova-plugin-dnsproxy" version="0.0.1">
+        id="cordova-plugin-dnsproxy" version="1.0.1">
     <name>DNSProxy</name>
 
-    <description>An Android Cordova plugin that allows users to customize dns server for android device.</description>
-    <license>MIT</license>
+    <description>Android Cordova plugin that allows users to modify DNS server settings</description>
+    <license>GPLv3</license>
 
     <keywords>cordova,android,toast,message,alert</keywords>
     <repo>https://github.com/RoqosInc/cordova-plugin-dnsproxy.git</repo>
