@@ -48,7 +48,7 @@ public class Configurations {
 
     public ArrayList<CustomDNSServer> getCustomDNSServers() {
         if (customDNSServers == null) {
-            customDNSServers = new ArrayList<CustomDNSServer>();
+            customDNSServers = new ArrayList<>();
         }
         return customDNSServers;
     }
