@@ -93,8 +93,8 @@ public class Roqos extends Application {
         dnsServer = dServer;
         port = Integer.parseInt(portNum);
         VPNSession = VPNSessionTitle;
-        Log.d("RoqosVPNService: ", getDNSServer());
-        Log.d("Roqos: ", getPort());
+        Log.d("Roqos: ", getDNSServer());
+        Log.d("Roqos: ", String.valueOf(getPort()));
     }
 
     private void initDirectory(String dir) {
