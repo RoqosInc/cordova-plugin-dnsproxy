@@ -49,11 +49,12 @@ public class DnsProxy extends CordovaPlugin {
             try {
             
                 JSONObject options = args.getJSONObject(0);
-                String dnsServer = options.getString("dnsServer") != "" ? options.getString("dnsServer") : "8.8.8.8";
-                String port = options.getString("port") != "" ? options.getString("port") : "53";
-                String VPNSessionTitle = options.getString("VPNSessionTitle") != "" ? options.getString("VPNSessionTitle") : "Roqos";
               
-                Roqos.config(dnsServer, port, VPNSessionTitle);
+                Roqos.dnsServer = options.getString("dnsServer") != "" ? options.getString("dnsServer") : "8.8.8.8";
+                Roqos.port = Integer.parseInt(options.getString("port") != "" ? options.getString("port") : "53");
+                Roqos.VPNSessionTitle = options.getString("VPNSessionTitle") != "" ? options.getString("VPNSessionTitle") : "Roqos";
+
+                // Roqos.config(dnsServer, port, VPNSessionTitle);
 
             } catch (JSONException e) {
                 callbackContext.error("Error encountered: " + e.getMessage());
