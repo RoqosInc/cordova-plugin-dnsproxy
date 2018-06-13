@@ -2,7 +2,7 @@
 
 # Installation
 
-From github latest (may not be stable)
+From github latest
 
 `cordova plugin add https://github.com/RoqosInc/cordova-plugin-dnsproxy`
 

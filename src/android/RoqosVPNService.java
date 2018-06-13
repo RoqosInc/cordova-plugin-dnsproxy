@@ -64,7 +64,7 @@ public class RoqosVPNService extends VpnService implements Runnable {
                 .setSession(Roqos.VPNSession);
 
         String format = null;
-        for (String prefix : new String[]{"10.0.0", "192.0.2", "198.51.100", "203.0.113", "192.168.50"}) {
+        for (String prefix : new String[]{"10.0.0", "192.168.50"}) {
             try {
                 builder.addAddress(prefix + ".1", 24);
             } catch (IllegalArgumentException e) {
