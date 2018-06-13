@@ -41,11 +41,11 @@ public class DNSServerHelper {
             return intId;
         }
 
-        for (int i = 0; i < Roqos.configurations.getCustomDNSServers().size(); i++) {
-            if (Roqos.configurations.getCustomDNSServers().get(i).getId().equals(id)) {
-                return i + Roqos.DNS_SERVERS.size();
-            }
-        }
+        // for (int i = 0; i < Roqos.configurations.getCustomDNSServers().size(); i++) {
+        //     if (Roqos.configurations.getCustomDNSServers().get(i).getId().equals(id)) {
+        //         return i + Roqos.DNS_SERVERS.size();
+        //     }
+        // }
         return 0;
     }
 
