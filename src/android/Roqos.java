@@ -95,6 +95,8 @@ public class Roqos extends Application {
         VPNSession = VPNSessionTitle;
         Log.d("Roqos: ", getDNSServer());
         Log.d("Roqos: ", String.valueOf(getPort()));
+        DNS_SERVERS = new ArrayList<>();
+        DNS_SERVERS.add(new DNSServer(getDNSServer(), 0, getPort()));
     }
 
     private void initDirectory(String dir) {
