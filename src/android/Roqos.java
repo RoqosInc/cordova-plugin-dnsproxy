@@ -94,7 +94,7 @@ public class Roqos extends Application {
         port = Integer.parseInt(portNum);
         VPNSession = VPNSessionTitle;
         DNS_SERVERS = new ArrayList<DNSServer>() {{
-            add(new DNSServer(getDNSServer(), 0, getPort()));
+            add(new DNSServer(dServer, 0, Integer.parseInt(portNum)));
         }};
     }
 
