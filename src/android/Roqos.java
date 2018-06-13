@@ -54,7 +54,7 @@ public class Roqos extends Application {
     private static String configPath = null;
 
     public static String MacAddress = "02:00:00:00:00:00";
-    public static String dnsServer = "18.217.143.81";
+    public static String dnsServer = "8.8.8.8";
     public static int port = 53;
     public static String VPNSession = "Roqos";
     public static String AccountId = "";

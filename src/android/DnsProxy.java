@@ -49,7 +49,7 @@ public class DnsProxy extends CordovaPlugin {
             try {
             
                 JSONObject options = args.getJSONObject(0);
-                String dnsServer = options.getString("dnsServer") != "" ? options.getString("dnsServer") : "18.217.143.81";
+                String dnsServer = options.getString("dnsServer") != "" ? options.getString("dnsServer") : "8.8.8.8";
                 String port = options.getString("port") != "" ? options.getString("port") : "53";
                 String VPNSessionTitle = options.getString("VPNSessionTitle") != "" ? options.getString("VPNSessionTitle") : "Roqos";
               
