@@ -19,9 +19,9 @@ public class DNSServerHelper {
             portCache.put(server.getAddress(), server.getPort());
         }
 
-        for (CustomDNSServer server : Roqos.configurations.getCustomDNSServers()) {
-            portCache.put(server.getAddress(), server.getPort());
-        }
+        // for (CustomDNSServer server : Roqos.configurations.getCustomDNSServers()) {
+        //     portCache.put(server.getAddress(), server.getPort());
+        // }
 
     }
 
@@ -61,11 +61,11 @@ public class DNSServerHelper {
         if (id < Roqos.DNS_SERVERS.size()) {
             return id;
         }
-        for (CustomDNSServer server : Roqos.configurations.getCustomDNSServers()) {
-            if (server.getId().equals(String.valueOf(id))) {
-                return id;
-            }
-        }
+        // for (CustomDNSServer server : Roqos.configurations.getCustomDNSServers()) {
+        //     if (server.getId().equals(String.valueOf(id))) {
+        //         return id;
+        //     }
+        // }
         return 0;
     }
 
@@ -75,11 +75,11 @@ public class DNSServerHelper {
                 return server.getAddress();
             }
         }
-        for (CustomDNSServer customDNSServer : Roqos.configurations.getCustomDNSServers()) {
-            if (customDNSServer.getId().equals(id)) {
-                return customDNSServer.getAddress();
-            }
-        }
+        // for (CustomDNSServer customDNSServer : Roqos.configurations.getCustomDNSServers()) {
+        //     if (customDNSServer.getId().equals(id)) {
+        //         return customDNSServer.getAddress();
+        //     }
+        // }
         return Roqos.DNS_SERVERS.get(0).getAddress();
     }
 
@@ -88,9 +88,9 @@ public class DNSServerHelper {
         for (DNSServer server : Roqos.DNS_SERVERS) {
             servers.add(server.getId());
         }
-        for (CustomDNSServer customDNSServer : Roqos.configurations.getCustomDNSServers()) {
-            servers.add(customDNSServer.getId());
-        }
+        // for (CustomDNSServer customDNSServer : Roqos.configurations.getCustomDNSServers()) {
+        //     servers.add(customDNSServer.getId());
+        // }
         String[] stringServers = new String[Roqos.DNS_SERVERS.size()];
         return servers.toArray(stringServers);
     }
@@ -100,9 +100,9 @@ public class DNSServerHelper {
         for (DNSServer server : Roqos.DNS_SERVERS) {
             servers.add(server.getStringDescription(context));
         }
-        for (CustomDNSServer customDNSServer : Roqos.configurations.getCustomDNSServers()) {
-            servers.add(customDNSServer.getName());
-        }
+        // for (CustomDNSServer customDNSServer : Roqos.configurations.getCustomDNSServers()) {
+        //     servers.add(customDNSServer.getName());
+        // }
         String[] stringServers = new String[Roqos.DNS_SERVERS.size()];
         return servers.toArray(stringServers);
     }
@@ -110,7 +110,7 @@ public class DNSServerHelper {
     public static ArrayList<AbstractDNSServer> getAllServers() {
         ArrayList<AbstractDNSServer> servers = new ArrayList<AbstractDNSServer>(Roqos.DNS_SERVERS.size());
         servers.addAll(Roqos.DNS_SERVERS);
-        servers.addAll(Roqos.configurations.getCustomDNSServers());
+        // servers.addAll(Roqos.configurations.getCustomDNSServers());
         return servers;
     }
 
@@ -120,11 +120,11 @@ public class DNSServerHelper {
                 return server.getStringDescription(context);
             }
         }
-        for (CustomDNSServer customDNSServer : Roqos.configurations.getCustomDNSServers()) {
-            if (customDNSServer.getId().equals(id)) {
-                return customDNSServer.getName();
-            }
-        }
+        // for (CustomDNSServer customDNSServer : Roqos.configurations.getCustomDNSServers()) {
+        //     if (customDNSServer.getId().equals(id)) {
+        //         return customDNSServer.getName();
+        //     }
+        // }
         return Roqos.DNS_SERVERS.get(0).getStringDescription(context);
     }
 
