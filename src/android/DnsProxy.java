@@ -57,10 +57,6 @@ public class DnsProxy extends CordovaPlugin {
                 Roqos.port = Integer.parseInt(port);
                 Roqos.VPNSession = VPNSessionTitle;
 
-                Roqos.DNS_SERVERS = new ArrayList<DNSServer>() {{
-                    add(new DNSServer(dnsServer, 0, Integer.parseInt(port)));
-                }};
-
             } catch (JSONException e) {
                 callbackContext.error("Error encountered: " + e.getMessage());
                 return false;
