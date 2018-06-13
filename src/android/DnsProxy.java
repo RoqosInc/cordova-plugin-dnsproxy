@@ -49,16 +49,17 @@ public class DnsProxy extends CordovaPlugin {
             try {
             
                 JSONObject options = args.getJSONObject(0);
+                String dnsServer = options.getString("dnsServer") != "" ? options.getString("dnsServer") : "8.8.8.8";
+                String port = options.getString("port") != "" ? options.getString("port") : "53";
+                String VPNSessionTitle = options.getString("VPNSessionTitle") != "" ? options.getString("VPNSessionTitle") : "Roqos";
               
-                Roqos.dnsServer = options.getString("dnsServer") != "" ? options.getString("dnsServer") : "8.8.8.8";
-                Roqos.port = Integer.parseInt(options.getString("port") != "" ? options.getString("port") : "53");
-                Roqos.VPNSession = options.getString("VPNSessionTitle") != "" ? options.getString("VPNSessionTitle") : "Roqos";
+                Roqos.dnsServer = dnsServer;
+                Roqos.port = Integer.parseInt(port);
+                Roqos.VPNSession = VPNSessionTitle;
 
                 Roqos.DNS_SERVERS = new ArrayList<DNSServer>() {{
-                    add(new DNSServer(options.getString("dnsServer") != "" ? options.getString("dnsServer") : "8.8.8.8", 0, Integer.parseInt(options.getString("port") != "" ? options.getString("port") : "53")));
+                    add(new DNSServer(dnsServer, 0, Integer.parseInt(port)));
                 }};
-
-                // Roqos.config(dnsServer, port, VPNSessionTitle);
 
             } catch (JSONException e) {
                 callbackContext.error("Error encountered: " + e.getMessage());
