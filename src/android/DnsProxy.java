@@ -57,7 +57,7 @@ public class DnsProxy extends CordovaPlugin {
                 Roqos.port = Integer.parseInt(port);
                 Roqos.VPNSession = VPNSessionTitle;
 
-                Roqos.DNS_SERVERS.add(new DNSServer(dnsServer.getText().toString(), 0, Integer.parseInt(port.getText().toString())));
+                Roqos.DNS_SERVERS.add(new DNSServer(dnsServer, 0, Integer.parseInt(port)));
 
                 String[] ids = DNSServerHelper.getIds();
 
