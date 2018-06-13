@@ -11,63 +11,63 @@ From github latest (may not be stable)
 
 # Methods
 
-## DnsPlugin.config
+## DnsProxy.config
 Config the DNS Server
 
-    window.plugins.dnsPlugin.config({
+    window.plugins.dnsProxy.config({
         dnsServer: "dnsServer",
         port: "as a string",
         VPNSessionTitle: "title to show in the session pop up"
     });
 
 #### Quick Example
-    window.plugins.dnsPlugin.config({
+    window.plugins.dnsProxy.config({
         dnsServer: "124.15.25.65",
         port: "53",
         VPNSessionTitle: "Roqos"
     });
 
-## DnsPlugin.isActivated
+## DnsProxy.isActivated
 Check the activation of the dns configuration
 
-    window.plugins.dnsPlugin.isActivated(success, error);
+    window.plugins.dnsProxy.isActivated(success, error);
 
 #### Quick Example
-    window.plugins.dnsPlugin.isActivated(function(status){
+    window.plugins.dnsProxy.isActivated(function(status){
         console.log(status);
     });
 
-## DnsPlugin.activate
+## DnsProxy.activate
 Activate the custom dns configuration
 
-    window.plugins.dnsPlugin.activate(success, error);
+    window.plugins.dnsProxy.activate(success, error);
 
 #### Quick Example
-    window.plugins.dnsPlugin.activate();
+    window.plugins.dnsProxy.activate();
 
-## DnsPlugin.deactivate
+## DnsProxy.deactivate
 Deactivate the custom dns configuration
 
-    window.plugins.dnsPlugin.deactivate(success, error);
+    window.plugins.dnsProxy.deactivate(success, error);
 
 #### Quick Example
-    window.plugins.dnsPlugin.deactivate();
+    window.plugins.dnsProxy.deactivate();
 
-## DnsPlugin.addEDNSOption
+## DnsProxy.addEDNSOption
 Add an EDNS option.
 
-    window.plugins.dnsPlugin.addEDNSOption(optionCode, message, success, error);
+    window.plugins.dnsProxy.addEDNSOption(optionCode, message, success, error);
 
 #### Quick Example
-    window.plugins.dnsPlugin.addEDNSOption(65073, "545e5f");
+    window.plugins.dnsProxy.addEDNSOption(65073, "545e5f");
 
-## DnsPlugin.removeAllEDNSOption
+## DnsProxy.removeAllEDNSOption
 remove all the added EDS Options
 
-    window.plugins.dnsPlugin.removeAllEDNSOption(success, error);
+    window.plugins.dnsProxy.removeAllEDNSOption(success, error);
 
 #### Quick Example
-    window.plugins.dnsPlugin.removeAllEDNSOption();
+    window.plugins.dnsProxy.removeAllEDNSOption();
     
 License
 ------------

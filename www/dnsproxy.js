@@ -1,43 +1,43 @@
 // Empty constructor
-function DnsPlugin() {}
+function DnsProxy() {}
 
-DnsPlugin.prototype.activate = function(successCallback, errorCallback) {
-  cordova.exec(successCallback, errorCallback, 'DnsPlugin', 'activate');
+DnsProxy.prototype.activate = function(successCallback, errorCallback) {
+  cordova.exec(successCallback, errorCallback, 'DnsProxy', 'activate');
 }
 
-DnsPlugin.prototype.deactivate = function(successCallback, errorCallback) {
-    cordova.exec(successCallback, errorCallback, 'DnsPlugin', 'deactivate');
+DnsProxy.prototype.deactivate = function(successCallback, errorCallback) {
+    cordova.exec(successCallback, errorCallback, 'DnsProxy', 'deactivate');
 }
 
-DnsPlugin.prototype.config = function(option, successCallback, errorCallback) {
+DnsProxy.prototype.config = function(option, successCallback, errorCallback) {
     var options = {};
     options.dnsServer = option.dnsServer;
     options.port = option.port;
     options.VPNSessionTitle = option.VPNSessionTitle;
-    cordova.exec(successCallback, errorCallback, 'DnsPlugin', 'config', [options]);
+    cordova.exec(successCallback, errorCallback, 'DnsProxy', 'config', [options]);
 }
 
-DnsPlugin.prototype.addEDNSOption = function(optionCode, message, successCallback, errorCallback) {
+DnsProxy.prototype.addEDNSOption = function(optionCode, message, successCallback, errorCallback) {
     var options = {};
     options.optionCode = optionCode;
     options.message = message;
-    cordova.exec(successCallback, errorCallback, 'DnsPlugin', 'addEDNSOption', [options]);
+    cordova.exec(successCallback, errorCallback, 'DnsProxy', 'addEDNSOption', [options]);
 }
 
-DnsPlugin.prototype.removeAllEDNSOption = function(successCallback, errorCallback) {
-    cordova.exec(successCallback, errorCallback, 'DnsPlugin', 'removeAllEDNSOption');
+DnsProxy.prototype.removeAllEDNSOption = function(successCallback, errorCallback) {
+    cordova.exec(successCallback, errorCallback, 'DnsProxy', 'removeAllEDNSOption');
 }
 
-DnsPlugin.prototype.isActivated = function(successCallback, errorCallback) {
-    cordova.exec(successCallback, errorCallback, 'DnsPlugin', 'isActivated');
+DnsProxy.prototype.isActivated = function(successCallback, errorCallback) {
+    cordova.exec(successCallback, errorCallback, 'DnsProxy', 'isActivated');
 }
 
-// Installation constructor that binds DnsPlugin to window
-DnsPlugin.install = function() {
+// Installation constructor that binds DnsProxy to window
+DnsProxy.install = function() {
   if (!window.plugins) {
     window.plugins = {};
   }
-  window.plugins.dnsPlugin = new DnsPlugin();
-  return window.plugins.dnsPlugin;
+  window.plugins.dnsProxy = new DnsProxy();
+  return window.plugins.dnsProxy;
 };
-cordova.addConstructor(DnsPlugin.install);
+cordova.addConstructor(DnsProxy.install);

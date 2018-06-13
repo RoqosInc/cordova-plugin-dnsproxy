@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class DnsPlugin extends CordovaPlugin {
+public class DnsProxy extends CordovaPlugin {
   private static final String DURATION_LONG = "long";
   
   @Override

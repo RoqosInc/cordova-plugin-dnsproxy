@@ -150,7 +150,7 @@ public class RoqosVPNService extends VpnService implements Runnable {
 
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
-                Intent nIntent = new Intent(this, DnsPlugin.class);
+                Intent nIntent = new Intent(this, DnsProxy.class);
                 PendingIntent pIntent = PendingIntent.getActivity(this, 0, nIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 builder.setWhen(0)
 //                        .setContentTitle(getResources().getString(R.string.notice_activated))
