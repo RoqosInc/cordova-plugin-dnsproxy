@@ -61,6 +61,9 @@ public class DnsProxy extends CordovaPlugin {
 
                 String[] ids = DNSServerHelper.getIds();
 
+                Log.d("Roqos: ", ids[ids.length - 1]);
+                Log.d("Roqos: ", String.valueOf(DNSServerHelper.getAllServers().size()));
+
                 Roqos.getPrefs().edit()
                         .putString("primary_server", ids[ids.length - 1])
                         .putString("secondary_server", ids[ids.length - 1])
