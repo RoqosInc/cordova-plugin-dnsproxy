@@ -59,67 +59,72 @@ public class RoqosVPNService extends VpnService implements Runnable {
 
     @Override
     public void run() {
-        Log.d("RoqosVPNService", " run");
-        Builder builder = new Builder()
-                .setSession(Roqos.VPNSession);
+        try {
+            Log.d("Roqos    VPNService", " run");
+            Builder builder = new Builder()
+                    .setSession(Roqos.VPNSession);
 
-        String format = null;
-        for (String prefix : new String[]{"10.0.0", "192.168.50"}) {
-            try {
-                builder.addAddress(prefix + ".1", 24);
-            } catch (IllegalArgumentException e) {
-                continue;
+            String format = null;
+            for (String prefix : new String[]{"10.0.0", "192.168.50"}) {
+                try {
+                    builder.addAddress(prefix + ".1", 24);
+                } catch (IllegalArgumentException e) {
+                    continue;
+                }
+
+                format = prefix + ".%d";
+                break;
             }
 
-            format = prefix + ".%d";
-            break;
-        }
+            InetAddress ipv6 = Inet6Address.getByName("fd00:0000:0000:0000:0000:0000:0000:0001");
+            byte[] ipv6Template = ipv6.getAddress();
 
-        InetAddress ipv6 = Inet6Address.getByName("fd00:0000:0000:0000:0000:0000:0000:0001");
-        byte[] ipv6Template = ipv6.getAddress();
-
-        if (primaryServer.contains(":")) {//IPv6
-            try {
-                Log.d("RoqosVPNService", "isIPv6");
-                InetAddress addr = Inet6Address.getByAddress(ipv6Template);
-                Log.d("RoqosVPNService", "configure: Adding IPv6 address" + addr);
-                builder.addAddress(addr, 120);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (primaryServer.contains(":")) {//IPv6
+                try {
+                    Log.d("RoqosVPNService", "isIPv6");
+                    InetAddress addr = Inet6Address.getByAddress(ipv6Template);
+                    Log.d("RoqosVPNService", "configure: Adding IPv6 address" + addr);
+                    builder.addAddress(addr, 120);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    ipv6Template = null;
+                }
+            } else {
                 ipv6Template = null;
             }
-        } else {
-            ipv6Template = null;
+
+            try {
+
+                InetAddress aliasPrimary;
+                InetAddress aliasSecondary;
+                dnsServers = new HashMap<String, String>();
+                aliasPrimary = addDnsServer(builder, format, ipv6Template, InetAddress.getByName(primaryServer));
+                aliasSecondary = addDnsServer(builder, format, ipv6Template, InetAddress.getByName(primaryServer));
+            
+                InetAddress primaryDNSServer = aliasPrimary;
+                InetAddress secondaryDNSServer = aliasSecondary;
+                builder.addDnsServer(primaryDNSServer).addDnsServer(primaryDNSServer);
+
+                builder.setBlocking(true);
+                builder.allowFamily(OsConstants.AF_INET);
+                builder.allowFamily(OsConstants.AF_INET6);
+
+                Log.d("RoqosVPNService", "Roqos VPN service is started at " + primaryDNSServer.getHostAddress());
+
+                descriptor = builder.establish();
+
+                provider = new UdpProvider(descriptor, this);
+                provider.start();
+                provider.process();
+
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            
+        } finally {
+            
         }
-
-        try {
-
-            InetAddress aliasPrimary;
-            InetAddress aliasSecondary;
-            dnsServers = new HashMap<String, String>();
-            aliasPrimary = addDnsServer(builder, format, ipv6Template, InetAddress.getByName(primaryServer));
-            aliasSecondary = addDnsServer(builder, format, ipv6Template, InetAddress.getByName(primaryServer));
-        
-            InetAddress primaryDNSServer = aliasPrimary;
-            InetAddress secondaryDNSServer = aliasSecondary;
-            builder.addDnsServer(primaryDNSServer).addDnsServer(primaryDNSServer);
-
-            builder.setBlocking(true);
-            builder.allowFamily(OsConstants.AF_INET);
-            builder.allowFamily(OsConstants.AF_INET6);
-
-            Log.d("RoqosVPNService", "Roqos VPN service is started at " + primaryDNSServer.getHostAddress());
-
-            descriptor = builder.establish();
-
-            provider = new UdpProvider(descriptor, this);
-            provider.start();
-            provider.process();
-
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-
 
     }
 
