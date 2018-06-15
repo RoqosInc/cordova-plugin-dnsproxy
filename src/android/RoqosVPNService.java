@@ -121,9 +121,7 @@ public class RoqosVPNService extends VpnService implements Runnable {
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            
-        } finally {
-            
+            e.printStackTrace();
         }
 
     }
