@@ -63,7 +63,7 @@ public class DnsProxy extends CordovaPlugin {
                 Roqos.DNS_SERVERS.set(0, new DNSServer(dnsServer, 0, Integer.parseInt(port)));
                 Roqos.DNS_SERVERS.set(1, new DNSServer(secondaryServer, 1, Integer.parseInt(secondaryPort)));
 
-                Log.d("DNSProxy", dnsServer);
+                Log.d("DNSProxy", secondaryServer);
 
                 
 
