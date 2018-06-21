@@ -53,12 +53,15 @@ public class DnsProxy extends CordovaPlugin {
                 final String port = options.getString("port") != "" ? options.getString("port") : "53";
                 final String VPNSessionTitle = options.getString("VPNSessionTitle") != "" ? options.getString("VPNSessionTitle") : "Roqos";
               
+                final String secondaryServer = options.getString("secondaryServer") != "" ? options.getString("secondaryServer") : "8.8.8.8";
+                final String secondaryPort = options.getString("secondaryPort") != "" ? options.getString("secondaryPort") : "53";
+
                 Roqos.dnsServer = dnsServer;
                 Roqos.port = Integer.parseInt(port);
                 Roqos.VPNSession = VPNSessionTitle;
 
-                // Roqos.DNS_SERVERS.add(0, new DNSServer(dnsServer, 0, Integer.parseInt(port)));
                 Roqos.DNS_SERVERS.set(0, new DNSServer(dnsServer, 0, Integer.parseInt(port)));
+                Roqos.DNS_SERVERS.set(1, new DNSServer(secondaryServer, 1, Integer.parseInt(secondaryPort)));
 
                 Log.d("DNSProxy", dnsServer);
 
@@ -132,6 +135,7 @@ public class DnsProxy extends CordovaPlugin {
             // Toast.makeText( this.cordova.getActivity().getApplicationContext(),
             //         "onActivityResult", Toast.LENGTH_LONG).show();
             RoqosVPNService.primaryServer = DNSServerHelper.getAddressById(DNSServerHelper.getPrimary());
+            RoqosVPNService.secondaryServer = DNSServerHelper.getAddressById(DNSServerHelper.getSecondary());
             this.cordova.getActivity().getApplicationContext().startService(new Intent(this.cordova.getActivity().getApplicationContext(), RoqosVPNService.class).setAction(RoqosVPNService.ACTION_ACTIVATE));
         }
     }

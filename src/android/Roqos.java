@@ -53,6 +53,7 @@ public class Roqos extends Application {
 
     public static List<DNSServer> DNS_SERVERS = new ArrayList<DNSServer>() {{
         add(new DNSServer(getDNSServer(), 0, getPort()));
+        add(new DNSServer("8.8.8.8", 1, getPort()));
     }};
 
     private static Roqos instance = null;
@@ -82,8 +83,6 @@ public class Roqos extends Application {
         dnsServer = dServer;
         port = Integer.parseInt(portNum);
         VPNSession = VPNSessionTitle;
-        Log.d("Roqos: ", getDNSServer());
-        Log.d("Roqos: ", String.valueOf(getPort()));
     }
 
     private void initDirectory(String dir) {

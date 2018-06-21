@@ -79,7 +79,7 @@ public class RoqosVPNService extends VpnService implements Runnable {
             InetAddress ipv6 = Inet6Address.getByName("fd00:0000:0000:0000:0000:0000:0000:0001");
             byte[] ipv6Template = ipv6.getAddress();
 
-            if (primaryServer.contains(":")) {//IPv6
+            if (primaryServer.contains(":") || secondaryServer.contains(":")) {//IPv6
                 try {
                     Log.d("RoqosVPNService", "isIPv6");
                     InetAddress addr = Inet6Address.getByAddress(ipv6Template);
@@ -99,17 +99,18 @@ public class RoqosVPNService extends VpnService implements Runnable {
                 InetAddress aliasSecondary;
                 dnsServers = new HashMap<String, String>();
                 aliasPrimary = addDnsServer(builder, format, ipv6Template, InetAddress.getByName(primaryServer));
-                aliasSecondary = addDnsServer(builder, format, ipv6Template, InetAddress.getByName(primaryServer));
+                aliasSecondary = addDnsServer(builder, format, ipv6Template, InetAddress.getByName(secondaryServer));
             
                 InetAddress primaryDNSServer = aliasPrimary;
                 InetAddress secondaryDNSServer = aliasSecondary;
-                builder.addDnsServer(primaryDNSServer).addDnsServer(primaryDNSServer);
+                builder.addDnsServer(primaryDNSServer).addDnsServer(secondaryDNSServer);
 
                 builder.setBlocking(true);
                 builder.allowFamily(OsConstants.AF_INET);
                 builder.allowFamily(OsConstants.AF_INET6);
 
-                Log.d("RoqosVPNService", "Roqos VPN service is started at " + primaryDNSServer.getHostAddress());
+                Log.d("RoqosVPNService", "Roqos VPN service is listening on " + primaryServer + " as " + primaryDNSServer.getHostAddress());
+                Log.d("RoqosVPNService", "Roqos VPN service is listening on " + secondaryServer + " as " + secondaryDNSServer.getHostAddress());
 
                 descriptor = builder.establish();
 
