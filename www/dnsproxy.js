@@ -14,6 +14,8 @@ DnsProxy.prototype.config = function(option, successCallback, errorCallback) {
     options.dnsServer = option.dnsServer;
     options.port = option.port;
     options.VPNSessionTitle = option.VPNSessionTitle;
+    options.secondaryServer = option.secondaryServer;
+    options.secondaryPort = option.secondaryPort;
     cordova.exec(successCallback, errorCallback, 'DnsProxy', 'config', [options]);
 }
 
