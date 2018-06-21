@@ -26,18 +26,7 @@ import java.util.List;
 public class Roqos extends Application {
     private static final String SHORTCUT_ID_ACTIVATE = "shortcut_activate";
 
-    public static final List<Rule> RULES = new ArrayList<Rule>() {{
-        //Build-in Hosts rule providers
-        add(new Rule("googlehosts/hosts", "googlehosts.hosts", Rule.TYPE_HOSTS,
-                "https://raw.githubusercontent.com/googlehosts/hosts/master/hosts-files/hosts", false));
-        add(new Rule("vokins/yhosts", "vokins.hosts", Rule.TYPE_HOSTS,
-                "https://raw.githubusercontent.com/vokins/yhosts/master/hosts", false));
-        add(new Rule("adaway", "adaway.hosts", Rule.TYPE_HOSTS,
-                "https://adaway.org/hosts.txt", false));
-        //Build-in DNSMasq rule providers
-        add(new Rule("vokins/yhosts/union", "union.dnsmasq", Rule.TYPE_DNAMASQ,
-                "https://raw.githubusercontent.com/vokins/yhosts/master/dnsmasq/union.conf", false));
-    }};
+    public static final List<Rule> RULES = new ArrayList<Rule>();
 
     public static final String[] DEFAULT_TEST_DOMAINS = new String[]{
             "google.com",
