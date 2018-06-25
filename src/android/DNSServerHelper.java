@@ -80,7 +80,7 @@ public class DNSServerHelper {
         //         return customDNSServer.getAddress();
         //     }
         // }
-        return Roqos.DNS_SERVERS.get(0).getAddress();
+        return Roqos.DNS_SERVERS.get(Integer.parseInt(id)).getAddress();
     }
 
     public static String[] getIds() {
