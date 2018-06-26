@@ -277,6 +277,7 @@ public class Roqos extends Application {
                         for (InetAddress name : linkProperties.getDnsServers()) {
                             servers.add(name.getHostAddress());
                         }
+                        Log.d("Roqos", "dns M = " + servers);
                     }
                 }
             }
@@ -289,6 +290,7 @@ public class Roqos extends Application {
                     servers.add(value);
                 }
             }
+            Log.d("Roqos", "dns = " + servers);
             return servers;
         } catch (Exception e) {
             e.printStackTrace();
