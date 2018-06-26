@@ -24,7 +24,7 @@ public class DnsProxy extends CordovaPlugin {
   public boolean execute(String action, JSONArray args,
     final CallbackContext callbackContext) {
         // Verify that the user sent a 'show' action
-        if (!action.equals("config") && !action.equals("activate") && !action.equals("isActivated") && !action.equals("removeAllEDNSOption") && !action.equals("addEDNSOption") && !action.equals("deactivate")) {
+        if (!action.equals("getCurrentDNS") && !action.equals("config") && !action.equals("activate") && !action.equals("isActivated") && !action.equals("removeAllEDNSOption") && !action.equals("addEDNSOption") && !action.equals("deactivate")) {
             callbackContext.error("\"" + action + "\" is not a recognized action.");
             return false;
         }
@@ -94,6 +94,12 @@ public class DnsProxy extends CordovaPlugin {
             callbackContext.success(String.valueOf(RoqosVPNService.isActivated()));
             return true;
 
+        }
+
+        if(action.equals("getCurrentDNS")){
+            String json = new Gson().toJson(Roqos.getCurrentDNS());
+            callbackContext.success(json);
+            return true;
         }
 
         if(action.equals("addEDNSOption")){

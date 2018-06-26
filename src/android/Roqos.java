@@ -23,6 +23,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import android.net.ConnectivityManager;
+import android.net.LinkProperties;
+import android.net.Network;
+import android.net.NetworkInfo;
+import java.lang.reflect.Method;
+import java.net.InetAddress;
+
 public class Roqos extends Application {
     private static final String SHORTCUT_ID_ACTIVATE = "shortcut_activate";
 
@@ -256,4 +263,37 @@ public class Roqos extends Application {
     public static Roqos getInstance() {
         return instance;
     }
+
+    public static ArrayList<String> getCurrentDNS(){
+        Method method = null;
+        ArrayList<String> servers = new ArrayList<String>();
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                ConnectivityManager connectivityManager = (ConnectivityManager) getInstance().getSystemService(CONNECTIVITY_SERVICE);
+                for (Network network : connectivityManager.getAllNetworks()) {
+                    NetworkInfo networkInfo = connectivityManager.getNetworkInfo(network);
+                    if (networkInfo.isConnected()) {
+                        LinkProperties linkProperties = connectivityManager.getLinkProperties(network);
+                        for (InetAddress name : linkProperties.getDnsServers()) {
+                            servers.add(name.getHostAddress());
+                        }
+                    }
+                }
+            }
+            else {
+                Class<?> SystemProperties = Class.forName("android.os.SystemProperties");
+                method = SystemProperties.getMethod("get", new Class[] { String.class });
+                for (String name : new String[] { "net.dns1", "net.dns2", "net.dns3", "net.dns4", }) {
+                    String value = (String) method.invoke(null, name);
+                    if (value != null && !"".equals(value) && !servers.contains(value))
+                    servers.add(value);
+                }
+            }
+            return servers;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return servers;
+    }
+
 }

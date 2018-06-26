@@ -34,6 +34,10 @@ DnsProxy.prototype.isActivated = function(successCallback, errorCallback) {
     cordova.exec(successCallback, errorCallback, 'DnsProxy', 'isActivated');
 }
 
+DnsProxy.prototype.getCurrentDNS = function(successCallback, errorCallback) {
+    cordova.exec(successCallback, errorCallback, 'DnsProxy', 'getCurrentDNS');
+}
+
 // Installation constructor that binds DnsProxy to window
 DnsProxy.install = function() {
   if (!window.plugins) {
