@@ -97,8 +97,8 @@ public class DnsProxy extends CordovaPlugin {
         }
 
         if(action.equals("getCurrentDNS")){
-            JSONArray jsArray = new JSONArray(Roqos.getCurrentDNS());
-            Log.d("DNSProxy", "dns = " + Roqos.getCurrentDNS());
+            JSONArray jsArray = new JSONArray(Roqos.getCurrentDNS(this.cordova.getActivity().getApplicationContext()));
+            Log.d("DNSProxy", "dns = " + Roqos.getCurrentDNS(this.cordova.getActivity().getApplicationContext()));
             callbackContext.success(jsArray);
             return true;
         }

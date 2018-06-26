@@ -264,12 +264,12 @@ public class Roqos extends Application {
         return instance;
     }
 
-    public static ArrayList<String> getCurrentDNS(){
+    public static ArrayList<String> getCurrentDNS(Context context){
         Method method = null;
         ArrayList<String> servers = new ArrayList<String>();
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                ConnectivityManager connectivityManager = (ConnectivityManager) getInstance().getSystemService(CONNECTIVITY_SERVICE);
+                ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
                 for (Network network : connectivityManager.getAllNetworks()) {
                     NetworkInfo networkInfo = connectivityManager.getNetworkInfo(network);
                     if (networkInfo.isConnected()) {
