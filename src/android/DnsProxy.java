@@ -24,7 +24,7 @@ public class DnsProxy extends CordovaPlugin {
   public boolean execute(String action, JSONArray args,
     final CallbackContext callbackContext) {
         // Verify that the user sent a 'show' action
-        if (!action.equals("getCurrentDNS") && !action.equals("config") && !action.equals("activate") && !action.equals("isActivated") && !action.equals("removeAllEDNSOption") && !action.equals("addEDNSOption") && !action.equals("deactivate")) {
+        if (!action.equals("getTun") && !action.equals("getCurrentDNS") && !action.equals("config") && !action.equals("activate") && !action.equals("isActivated") && !action.equals("removeAllEDNSOption") && !action.equals("addEDNSOption") && !action.equals("deactivate")) {
             callbackContext.error("\"" + action + "\" is not a recognized action.");
             return false;
         }
@@ -99,6 +99,12 @@ public class DnsProxy extends CordovaPlugin {
         if(action.equals("getCurrentDNS")){
             JSONArray jsArray = new JSONArray(Roqos.getCurrentDNS(this.cordova.getActivity().getApplicationContext()));
             Log.d("DNSProxy", "dns = " + Roqos.getCurrentDNS(this.cordova.getActivity().getApplicationContext()));
+            callbackContext.success(jsArray);
+            return true;
+        }
+
+        if(action.equals("getTun")){
+            JSONArray jsArray = new JSONArray(Roqos.getTun());
             callbackContext.success(jsArray);
             return true;
         }

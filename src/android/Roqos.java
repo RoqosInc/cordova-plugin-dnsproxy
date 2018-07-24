@@ -29,6 +29,7 @@ import android.net.Network;
 import android.net.NetworkInfo;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 
 public class Roqos extends Application {
     private static final String SHORTCUT_ID_ACTIVATE = "shortcut_activate";
@@ -296,6 +297,28 @@ public class Roqos extends Application {
             e.printStackTrace();
         }
         return servers;
+    }
+
+    private ArrayList<String> getTun() {
+        ArrayList<String> tun0 = new ArrayList<String>();
+        try {
+            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+
+            try {
+                for (NetworkInterface networkInterface : Collections.list(NetworkInterface.getNetworkInterfaces())) {
+                    if (networkInterface.isUp() && networkInterface.getName().equalsIgnoreCase("tun0")){
+                        for (InetAddress inAddress : Collections.list(networkInterface.getInetAddresses())) {
+                            tun0.add(inAddress.getHostAddress());
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                
+            }
+
+        } catch (Exception ex) { }
+
+        return tun0;
     }
 
 }

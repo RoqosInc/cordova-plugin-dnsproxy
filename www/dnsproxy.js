@@ -38,6 +38,10 @@ DnsProxy.prototype.getCurrentDNS = function(successCallback, errorCallback) {
     cordova.exec(successCallback, errorCallback, 'DnsProxy', 'getCurrentDNS');
 }
 
+DnsProxy.prototype.getTun = function(successCallback, errorCallback) {
+    cordova.exec(successCallback, errorCallback, 'DnsProxy', 'getTun');
+}
+
 // Installation constructor that binds DnsProxy to window
 DnsProxy.install = function() {
   if (!window.plugins) {
