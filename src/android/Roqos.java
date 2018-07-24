@@ -299,7 +299,7 @@ public class Roqos extends Application {
         return servers;
     }
 
-    private ArrayList<String> getTun() {
+    public static ArrayList<String> getTun() {
         ArrayList<String> tun0 = new ArrayList<String>();
         try {
             List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
