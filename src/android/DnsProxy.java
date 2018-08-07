@@ -42,6 +42,9 @@ public class DnsProxy extends CordovaPlugin {
             // Send a positive result to the callbackContext
             PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
             callbackContext.sendPluginResult(pluginResult);
+
+            //Save Always-on to boot receiver
+            OnBootReceiver.saveAlwaysOn(this.cordova.getActivity().getApplicationContext(), true, OnBootReceiver.ALWAYS_ON);
             return true;
         }
 
@@ -85,6 +88,8 @@ public class DnsProxy extends CordovaPlugin {
             // Send a positive result to the callbackContext
             PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
             callbackContext.sendPluginResult(pluginResult);
+            //Save Always-on to boot receiver
+            OnBootReceiver.saveAlwaysOn(this.cordova.getActivity().getApplicationContext(), false, OnBootReceiver.ALWAYS_ON);
             return true;
         }
 
@@ -113,7 +118,7 @@ public class DnsProxy extends CordovaPlugin {
 
             try {
             
-                JSONObject options = args.getJSONObject(0);
+                JSONObject options = args.getJSONObject(0);                
                 Roqos.addEDNSOption(options.getString("optionCode"), options.getString("message"));
 
             } catch (JSONException e) {
