@@ -26,6 +26,10 @@ DnsProxy.prototype.addEDNSOption = function(optionCode, message, successCallback
     cordova.exec(successCallback, errorCallback, 'DnsProxy', 'addEDNSOption', [options]);
 }
 
+DnsProxy.prototype.isPageLock = function(lock, successCallback, errorCallback) {
+    cordova.exec(successCallback, errorCallback, 'DnsProxy', 'isPageLock', [lock]);
+}
+
 DnsProxy.prototype.removeAllEDNSOption = function(successCallback, errorCallback) {
     cordova.exec(successCallback, errorCallback, 'DnsProxy', 'removeAllEDNSOption');
 }

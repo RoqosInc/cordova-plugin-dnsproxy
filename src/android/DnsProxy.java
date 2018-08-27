@@ -12,6 +12,11 @@ import android.content.Intent;
 import android.net.VpnService;
 import android.os.Bundle;
 import android.util.Log;
+import android.os.Build;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
 
 import android.widget.Toast;
 
@@ -19,19 +24,20 @@ import java.util.ArrayList;
 
 public class DnsProxy extends CordovaPlugin {
   private static final String DURATION_LONG = "long";
-  
+  public static final String MY_PREFS_CONFIGS = "MY_PREFS_CONFIGS";
+  public static final String MY_PREFS_ADDEDNSOPTION = "MY_PREFS_ADDEDNSOPTION";
+
   @Override
   public boolean execute(String action, JSONArray args,
     final CallbackContext callbackContext) {
         // Verify that the user sent a 'show' action
-        if (!action.equals("getTun") && !action.equals("getCurrentDNS") && !action.equals("config") && !action.equals("activate") && !action.equals("isActivated") && !action.equals("removeAllEDNSOption") && !action.equals("addEDNSOption") && !action.equals("deactivate")) {
+        if (!action.equals("isPageLock") && !action.equals("getTun") && !action.equals("getCurrentDNS") && !action.equals("config") && !action.equals("activate") && !action.equals("isActivated") && !action.equals("removeAllEDNSOption") && !action.equals("addEDNSOption") && !action.equals("deactivate")) {
             callbackContext.error("\"" + action + "\" is not a recognized action.");
             return false;
         }
         if(action.equals("activate")){
 
             Intent intent = VpnService.prepare(this.cordova.getActivity().getApplicationContext());
-
             if (intent != null) {
                 cordova.setActivityResultCallback(this);
                 cordova.getActivity().startActivityForResult(intent, 0);
@@ -44,7 +50,7 @@ public class DnsProxy extends CordovaPlugin {
             callbackContext.sendPluginResult(pluginResult);
 
             //Save Always-on to boot receiver
-            OnBootReceiver.saveAlwaysOn(this.cordova.getActivity().getApplicationContext(), true, OnBootReceiver.ALWAYS_ON);
+//            OnBootReceiver.saveAlwaysOn(this.cordova.getActivity().getApplicationContext(), true, OnBootReceiver.ALWAYS_ON);
             return true;
         }
 
@@ -68,7 +74,13 @@ public class DnsProxy extends CordovaPlugin {
 
                 Log.d("DNSProxy", secondaryServer);
 
-                
+                SharedPreferences.Editor editor = this.cordova.getActivity().getApplicationContext().getSharedPreferences(MY_PREFS_CONFIGS, this.cordova.getActivity().getApplicationContext().MODE_PRIVATE).edit();
+                editor.putString("dnsServer", dnsServer);
+                editor.putString("port", port);
+                editor.putString("VPNSessionTitle", VPNSessionTitle);
+                editor.putString("secondaryServer", secondaryServer);
+                editor.putString("secondaryPort", secondaryPort);
+                editor.apply();
 
             } catch (JSONException e) {
                 callbackContext.error("Error encountered: " + e.getMessage());
@@ -78,6 +90,24 @@ public class DnsProxy extends CordovaPlugin {
             // Send a positive result to the callbackContext
             PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
             callbackContext.sendPluginResult(pluginResult);
+            return true;
+        }
+
+        if (action.equals("isPageLock")){
+            try {
+                JSONObject locks = args.getJSONObject(0);
+                final boolean pageLock = locks.getBoolean("pageLock") ? locks.getBoolean("pageLock") : false;
+
+                PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
+                callbackContext.sendPluginResult(pluginResult);
+
+//                Save Always-on to boot receiver
+                OnBootReceiver.saveAlwaysOn(this.cordova.getActivity().getApplicationContext(), pageLock, OnBootReceiver.ALWAYS_ON);
+            } catch (JSONException e) {
+                callbackContext.error("Error encountered: " + e.getMessage());
+                return false;
+            }
+
             return true;
         }
 
@@ -98,7 +128,6 @@ public class DnsProxy extends CordovaPlugin {
             // PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
             callbackContext.success(String.valueOf(RoqosVPNService.isActivated()));
             return true;
-
         }
 
         if(action.equals("getCurrentDNS")){
@@ -120,6 +149,11 @@ public class DnsProxy extends CordovaPlugin {
             
                 JSONObject options = args.getJSONObject(0);                
                 Roqos.addEDNSOption(options.getString("optionCode"), options.getString("message"));
+
+                SharedPreferences.Editor editors = this.cordova.getActivity().getApplicationContext().getSharedPreferences(MY_PREFS_ADDEDNSOPTION, this.cordova.getActivity().getApplicationContext().MODE_PRIVATE).edit();
+                editors.putString("optionCode", options.getString("optionCode"));
+                editors.putString("message", options.getString("message"));
+                editors.apply();
 
             } catch (JSONException e) {
                 callbackContext.error("Error encountered: " + e.getMessage());

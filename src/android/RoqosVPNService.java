@@ -2,7 +2,7 @@ package com.roqos.cordova.plugin;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
-
+import android.app.NotificationChannel;
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -15,6 +15,9 @@ import android.os.ParcelFileDescriptor;
 import android.support.v4.app.NotificationCompat;
 import android.system.OsConstants;
 import android.util.Log;
+import android.content.res.Resources;
+import com.roqos.cordova.plugin.Roqos;
+import com.roqos.cordova.plugin.StatusBarBroadcastReceiver;
 
 import java.net.Inet4Address;
 import java.net.Inet6Address;
@@ -26,6 +29,7 @@ import android.widget.Toast;
 
 public class RoqosVPNService extends VpnService implements Runnable {
 
+    public static final String SERVICE_META_DATA_SUPPORTS_ALWAYS_ON = "ALWAYS_ON";
     public static final String ACTION_ACTIVATE = "com.roqos.RoqosVpnService.ACTION_ACTIVATE";
     public static final String ACTION_DEACTIVATE = "com.roqos.RoqosVpnService.ACTION_DEACTIVATE";
 
@@ -33,6 +37,9 @@ public class RoqosVPNService extends VpnService implements Runnable {
     public HashMap<String, String> dnsServers;
 
     private static final int NOTIFICATION_ACTIVATED = 0;
+
+    private static final String CHANNEL_ID = "guardian_channel_1";
+    private static final String CHANNEL_NAME = "guardian_channel";
 
     private static boolean activated = false;
 
@@ -55,7 +62,7 @@ public class RoqosVPNService extends VpnService implements Runnable {
         return activated;
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(Build.VERSION_CODES.O)
 
     @Override
     public void run() {
@@ -153,19 +160,35 @@ public class RoqosVPNService extends VpnService implements Runnable {
                 activated = true;
                 NotificationManager manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+//                NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+
+                NotificationCompat.Builder builder;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_LOW);
+                    manager.createNotificationChannel(channel);
+                    builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+                } else {
+                    builder = new NotificationCompat.Builder(this);
+                }
+
+                final Resources activityRes = this.getResources();
+                final int iconResId = activityRes.getIdentifier("icon", "drawable", this.getPackageName());
+
+                Intent deactivateIntent = new Intent(StatusBarBroadcastReceiver.STATUS_BAR_BTN_DEACTIVATE_CLICK_ACTION);
+                deactivateIntent.setClass(this, StatusBarBroadcastReceiver.class);
 
                 Intent nIntent = new Intent(this, DnsProxy.class);
                 PendingIntent pIntent = PendingIntent.getActivity(this, 0, nIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 builder.setWhen(0)
-//                        .setContentTitle(getResources().getString(R.string.notice_activated))
+                        .setContentTitle("Roqos DnsProxy is activated.")
                         .setDefaults(NotificationCompat.DEFAULT_LIGHTS)
-//                        .setSmallIcon(R.drawable.ic_security)
+                        .setSmallIcon(iconResId)
                         // .setColor(getResources().getColor(R.color.colorPrimary)) //backward compatibility
                         .setAutoCancel(false)
                         .setOngoing(true)
 //                        .setTicker(getResources().getString(R.string.notice_activated))
                         .setContentIntent(pIntent);
+//                        .addAction(iconResId, "Deactivate", PendingIntent.getBroadcast(this, 0, deactivateIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
                 Notification notification = builder.build();
 
@@ -174,7 +197,11 @@ public class RoqosVPNService extends VpnService implements Runnable {
 //                    this.running = true;
                     this.mThread.start();
                 }
+
 //                manager.notify(NOTIFICATION_ACTIVATED, notification);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForeground(1000, notification);
+                }
                 this.notification = builder;
 
 //                this.notification = builder;
@@ -192,12 +219,13 @@ public class RoqosVPNService extends VpnService implements Runnable {
         return START_NOT_STICKY;
     }
 
+
     @Override
     public void onDestroy() {
         stopThread();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(Build.VERSION_CODES.O)
     private void stopThread() {
 //        Log.d(TAG, "stopThread");
         activated = false;
